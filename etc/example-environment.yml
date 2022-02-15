@@ -1,0 +1,6 @@
+name: anaconda-client-env
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pandas
