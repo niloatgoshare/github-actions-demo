@@ -1,11 +1,27 @@
-name: CI
-on: push
+name: Automated Tests
+
+on: [ push ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  example-6:
+    name: Ex6 Mamba
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - run: npm install
-    - run: npm test
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.6
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+          environment-file: etc/example-environment.yml
+      - shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+          printenv | sort
+      - shell: bash -l {0}
+        run: mamba install jupyterlab
